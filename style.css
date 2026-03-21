@@ -281,6 +281,11 @@ h1 {
     background: linear-gradient(180deg, #00ffff, #00d9ff);
 }
 
+/* Show scrollbar while actively scrolling */
+.view-panel.scrolling::-webkit-scrollbar-thumb {
+    opacity: 1;
+}
+
 .back-btn {
     transition: 0.3s, transform 0.3s, opacity 0.3s;
 }
