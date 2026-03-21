@@ -244,3 +244,34 @@ h1 {
 .featured .dl-link {
     background: #ffd700 !important; /* Gold button for the new release */
 }
+
+/* ✅ Enable scrolling ONLY inside panels */
+.view-panel {
+    display: none;
+    height: 90vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* ✅ Neon Scrollbar (Theme Matching) */
+.view-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.view-panel::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.view-panel::-webkit-scrollbar-thumb {
+    background: var(--neon);
+    box-shadow: 0 0 10px var(--neon);
+    border-radius: 10px;
+}
+
+.view-panel::-webkit-scrollbar-thumb:hover {
+    background: #00ffff;
+}
+
+.back-btn {
+    transition: 0.3s, transform 0.3s, opacity 0.3s;
+}
