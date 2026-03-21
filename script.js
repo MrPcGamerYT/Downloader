@@ -108,6 +108,20 @@ document.querySelectorAll('.view-panel').forEach(panel => {
     });
 });
 
+/* 🔥 Show scrollbar while scrolling */
+document.querySelectorAll('.view-panel').forEach(panel => {
+    let scrollTimeout;
+
+    panel.addEventListener('scroll', () => {
+        panel.classList.add('scrolling');
+
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            panel.classList.remove('scrolling');
+        }, 800);
+    });
+});
+
 window.addEventListener('resize', init);
 init();
 animate();
