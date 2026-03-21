@@ -206,3 +206,33 @@ h1 {
 @media (max-width: 900px) {
     .grid-nav, .tool-grid { grid-template-columns: 1fr; }
 }
+
+/* Special Style for New Emulator */
+.featured {
+    border-color: #ffd700 !important; /* Gold border */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.new-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ffd700;
+    color: #000;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    font-weight: 900;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 5;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
+}
+
+.featured:hover {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4) !important;
+}
+
+.featured .dl-link {
+    background: #ffd700 !important; /* Gold button for the new release */
+}
