@@ -108,21 +108,6 @@ document.querySelectorAll('.view-panel').forEach(panel => {
     });
 });
 
-/* 🔥 Show scrollbar while scrolling (FIXED) */
-window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.view-panel').forEach(panel => {
-        let scrollTimeout;
-
-        panel.addEventListener('scroll', () => {
-            panel.classList.add('scrolling');
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                panel.classList.remove('scrolling');
-            }, 700);
-        });
-    });
-});
 window.addEventListener('resize', init);
 init();
 animate();
