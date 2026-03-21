@@ -220,13 +220,21 @@ h1 {
     background: #ffd700;
     color: #000;
     font-family: 'Orbitron', sans-serif;
-    font-size: 9px;
+    font-size: 10px; /* Slightly larger for readability */
     font-weight: 900;
-    padding: 4px 10px;
+    padding: 5px 15px 5px 25px; /* Added more left padding for the slant */
     text-transform: uppercase;
     letter-spacing: 1px;
     z-index: 5;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
+    /* This creates a cleaner "ribbon" look that won't cut off your text */
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    white-space: nowrap; /* Prevents text from wrapping to a second line */
+    box-shadow: -2px 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Optional: Add a small glow to the text itself to make it pop */
+.new-tag {
+    text-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
 
 .featured:hover {
