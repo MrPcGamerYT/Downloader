@@ -1,0 +1,208 @@
+:root {
+    --neon: #00f2ff;
+    --neon-dim: rgba(0, 242, 255, 0.15);
+    --yt-red: #ff0000;
+    --discord-blue: #5865F2;
+    --bg-black: #000000;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+
+body {
+    background-color: var(--bg-black);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Pro Scanline Effect */
+body::before {
+    content: " ";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    z-index: 5;
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+}
+
+#canvas { position: fixed; top: 0; left: 0; z-index: 1; }
+
+.overlay {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
+
+.main-frame {
+    width: 90%;
+    max-width: 1100px;
+    text-align: center;
+}
+
+/* Branding Section */
+.channel-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: var(--neon);
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 900;
+    letter-spacing: 12px;
+    margin-bottom: 5px;
+    background: linear-gradient(to bottom, #fff 50%, var(--neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.4));
+}
+
+.tagline {
+    font-size: 0.75rem;
+    color: #666;
+    letter-spacing: 4px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+/* --- NAVIGATION & TOOL CARDS --- */
+.grid-nav, .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    perspective: 1000px;
+}
+
+.nav-item, .tool-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.01);
+    padding: 65px 20px;
+    border: 1px solid var(--neon-dim);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tool-card { padding: 40px 25px; text-align: left; cursor: default; }
+
+.nav-item::before, .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 15px; height: 15px;
+    border-top: 2px solid var(--neon);
+    border-left: 2px solid var(--neon);
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.nav-item::after, .tool-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 15px; height: 15px;
+    border-bottom: 2px solid var(--neon);
+    border-right: 2px solid var(--neon);
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.nav-item:hover, .tool-card:hover {
+    background: rgba(0, 242, 255, 0.08);
+    border-color: var(--neon);
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9), 0 0 20px var(--neon-dim);
+}
+
+.glitch-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 242, 255, 0.03) 2px, rgba(0, 242, 255, 0.03) 4px);
+    opacity: 0;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.nav-item:hover .glitch-bg, .tool-card:hover .glitch-bg { opacity: 1; }
+
+.nav-item h2, .tool-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 5px;
+    transition: 0.3s;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-item h2 { font-size: 0.85rem; color: #888; }
+.tool-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; letter-spacing: 2px; }
+
+.nav-item:hover h2, .tool-card:hover h3 { 
+    color: #fff; 
+    text-shadow: 0 0 10px var(--neon); 
+    letter-spacing: 7px;
+}
+
+.tool-card:hover h3 { letter-spacing: 3px; color: var(--neon); }
+
+.social-hub {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    font-family: 'Orbitron';
+    font-size: 0.75rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid #333;
+    color: #888;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.social-btn svg { width: 18px; height: 18px; fill: currentColor; transition: 0.3s; }
+.social-btn:hover { border-color: var(--neon); color: #fff; box-shadow: 0 0 10px var(--neon-dim); }
+.yt { color: var(--yt-red); border-color: rgba(255,0,0,0.3); }
+.yt:hover { border-color: var(--yt-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
+.discord { color: var(--discord-blue); border-color: rgba(88,101,242,0.3); }
+.discord:hover { border-color: var(--discord-blue); box-shadow: 0 0 15px rgba(88,101,242,0.2); }
+
+.view-panel { display: none; }
+.badge { font-size: 10px; color: var(--neon); border: 1px solid var(--neon-dim); padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+.dl-link {
+    display: block; width: 100%; padding: 14px; background: var(--neon); color: #000;
+    text-align: center; text-decoration: none; font-weight: 900; font-family: 'Orbitron';
+    font-size: 0.75rem; margin-top: 20px; transition: 0.3s;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0% 30%);
+}
+.dl-link:hover { transform: scale(1.02); filter: brightness(1.2); }
+
+.pass-info { font-size: 11px; color: #ff3366; margin-top: 15px; display: block; font-family: monospace; letter-spacing: 1px; }
+.back-btn { color: #555; cursor: pointer; display: inline-block; margin-bottom: 40px; letter-spacing: 5px; font-size: 0.8rem; font-family: 'Orbitron'; transition: 0.3s; }
+.back-btn:hover { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+
+@media (max-width: 900px) {
+    .grid-nav, .tool-grid { grid-template-columns: 1fr; }
+}
