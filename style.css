@@ -263,15 +263,19 @@ h1 {
     background: transparent;
 }
 
-/* Thumb (HIDDEN by default) */
 .view-panel::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #00f2ff, #00c3cc);
     border-radius: 10px;
     box-shadow: inset 0 0 6px rgba(0, 242, 255, 0.8);
 
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.25s ease;
+    /* ❌ REMOVE THIS */
+    /* transform: scaleY(0); */
+
+    /* ✅ ADD THIS */
+    min-height: 40px;   /* short size */
+    
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
 /* Show on hover */
