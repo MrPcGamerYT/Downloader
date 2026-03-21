@@ -263,15 +263,24 @@ h1 {
 }
 
 .view-panel::-webkit-scrollbar-thumb {
-    background: var(--neon);
-    box-shadow: 0 0 10px var(--neon);
+    background: linear-gradient(180deg, #00f2ff, #00c3cc);
     border-radius: 10px;
+
+    /* 🔥 Inner glow instead of outer (fixes separation issue) */
+    box-shadow: inset 0 0 6px rgba(0, 242, 255, 0.8);
+
+    /* Keeps it tight inside track */
+    border: 1px solid rgba(0, 242, 255, 0.2);
 }
 
 .view-panel::-webkit-scrollbar-thumb:hover {
-    background: #00ffff;
+    background: linear-gradient(180deg, #00ffff, #00d9ff);
 }
 
 .back-btn {
     transition: 0.3s, transform 0.3s, opacity 0.3s;
+}
+
+.view-panel::-webkit-scrollbar {
+    width: 5px;
 }
