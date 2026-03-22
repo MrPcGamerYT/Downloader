@@ -83,31 +83,24 @@ function nav(id) {
     if(target) target.style.display = 'block';
 }
 
-/* ✅ Auto hide back button on scroll */
 document.querySelectorAll('.view-panel').forEach(panel => {
+    let lastScrollTop = 0;
     const backBtn = panel.querySelector('.back-btn');
 
-    if (!backBtn) return;
-
-    let lastScroll = 0;
-
     panel.addEventListener('scroll', () => {
-        let currentScroll = panel.scrollTop;
+        let scrollTop = panel.scrollTop;
 
-        if (currentScroll > lastScroll && currentScroll > 50) {
-            // scrolling down
-            backBtn.style.opacity = "0";
-            backBtn.style.transform = "translateY(-20px)";
+        if (scrollTop > lastScrollTop && scrollTop > 50) {
+            // User is scrolling down - Hide Button
+            backBtn.classList.add('hidden');
         } else {
-            // scrolling up
-            backBtn.style.opacity = "1";
-            backBtn.style.transform = "translateY(0)";
+            // User is scrolling up - Show Button
+            backBtn.classList.remove('hidden');
         }
-
-        lastScroll = currentScroll;
-    });
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+    }, { passive: true });
 });
-
 window.addEventListener('resize', init);
 init();
 animate();
