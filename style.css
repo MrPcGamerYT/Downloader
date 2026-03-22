@@ -41,9 +41,31 @@ body::before {
     background: transparent;
 }
 
+/* 🔥 Updated View Panel: Fixed clipping & added Neon Scrollbar */
+.view-panel {
+    display: none;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal clipping */
+    padding: 40px 60px 100px 60px; /* Space for hover effects */
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon) transparent;
+}
+
+/* Neon Scrollbar Design */
+.view-panel::-webkit-scrollbar { width: 4px; }
+.view-panel::-webkit-scrollbar-track { background: transparent; }
+.view-panel::-webkit-scrollbar-thumb { 
+    background: var(--neon); 
+    box-shadow: 0 0 10px var(--neon);
+    border-radius: 10px;
+}
+
 .main-frame {
     width: 90%;
-    max-width: 1100px;
+    max-width: 1200px;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -78,12 +100,38 @@ h1 {
     text-transform: uppercase;
 }
 
+/* ✅ Updated Sticky Back Button: Pushed to the left edge */
+.back-btn { 
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: transparent !important;
+    color: #555; 
+    cursor: pointer; 
+    display: table; /* Shrink to text size */
+    margin-bottom: 30px; 
+    letter-spacing: 5px; 
+    font-size: 0.8rem; 
+    font-family: 'Orbitron'; 
+    transition: 0.3s, transform 0.3s, opacity 0.3s;
+    z-index: 100;
+    padding: 10px 0;
+    text-align: left;
+}
+
+.back-btn:hover { 
+    color: var(--neon); 
+    text-shadow: 0 0 10px var(--neon);
+    transform: translateX(10px);
+}
+
 /* --- NAVIGATION & TOOL CARDS --- */
 .grid-nav, .tool-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 30px;
     perspective: 1000px;
+    width: 100%;
 }
 
 .nav-item, .tool-card {
@@ -121,6 +169,7 @@ h1 {
     transition: 0.3s;
 }
 
+/* Hover effect with perspective */
 .nav-item:hover, .tool-card:hover {
     background: rgba(0, 242, 255, 0.08);
     border-color: var(--neon);
@@ -158,37 +207,19 @@ h1 {
 
 .tool-card:hover h3 { letter-spacing: 3px; color: var(--neon); }
 
-.social-hub {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
+/* SOCIALS */
+.social-hub { margin-top: 50px; display: flex; justify-content: center; gap: 20px; }
 .social-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 25px;
-    font-family: 'Orbitron';
-    font-size: 0.75rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 1px solid #333;
-    color: #888;
-    transition: 0.3s;
-    border-radius: 4px;
+    display: flex; align-items: center; gap: 10px; padding: 12px 25px;
+    font-family: 'Orbitron'; font-size: 0.75rem; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 2px; border: 1px solid #333;
+    color: #888; transition: 0.3s; border-radius: 4px;
 }
-
-.social-btn svg { width: 18px; height: 18px; fill: currentColor; transition: 0.3s; }
+.social-btn svg { width: 18px; height: 18px; fill: currentColor; }
 .social-btn:hover { border-color: var(--neon); color: #fff; box-shadow: 0 0 10px var(--neon-dim); }
 .yt { color: var(--yt-red); border-color: rgba(255,0,0,0.3); }
-.yt:hover { border-color: var(--yt-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
 .discord { color: var(--discord-blue); border-color: rgba(88,101,242,0.3); }
-.discord:hover { border-color: var(--discord-blue); box-shadow: 0 0 15px rgba(88,101,242,0.2); }
 
-.view-panel { display: none; }
 .badge { font-size: 10px; color: var(--neon); border: 1px solid var(--neon-dim); padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; }
 
 .dl-link {
@@ -200,70 +231,22 @@ h1 {
 .dl-link:hover { transform: scale(1.02); filter: brightness(1.2); }
 
 .pass-info { font-size: 11px; color: #ff3366; margin-top: 15px; display: block; font-family: monospace; letter-spacing: 1px; }
-.back-btn { color: #555; cursor: pointer; display: inline-block; margin-bottom: 40px; letter-spacing: 5px; font-size: 0.8rem; font-family: 'Orbitron'; transition: 0.3s; }
-.back-btn:hover { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
 
 @media (max-width: 900px) {
     .grid-nav, .tool-grid { grid-template-columns: 1fr; }
+    .view-panel { padding: 20px; }
+    .back-btn { font-size: 0.7rem; }
 }
 
-/* Special Style for New Emulator */
-.featured {
-    border-color: #ffd700 !important; /* Gold border */
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-}
-
+/* Featured / New Release Styles */
+.featured { border-color: #ffd700 !important; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
 .new-tag {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #ffd700;
-    color: #000;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 10px; /* Slightly larger for readability */
-    font-weight: 900;
-    padding: 5px 15px 5px 25px; /* Added more left padding for the slant */
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    z-index: 5;
-    /* This creates a cleaner "ribbon" look that won't cut off your text */
-    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
-    white-space: nowrap; /* Prevents text from wrapping to a second line */
-    box-shadow: -2px 2px 10px rgba(0,0,0,0.5);
-}
-
-/* Optional: Add a small glow to the text itself to make it pop */
-.new-tag {
+    position: absolute; top: 0; right: 0; background: #ffd700; color: #000;
+    font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 900;
+    padding: 5px 15px 5px 25px; text-transform: uppercase; letter-spacing: 1px;
+    z-index: 5; clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    white-space: nowrap; box-shadow: -2px 2px 10px rgba(0,0,0,0.5);
     text-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
-
-.featured:hover {
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4) !important;
-}
-
-.featured .dl-link {
-    background: #ffd700 !important; /* Gold button for the new release */
-}
-
-/* ✅ Enable scrolling ONLY inside panels */
-.view-panel {
-    display: none;
-    height: 90vh;
-    overflow-y: auto;
-    padding-right: 10px;
-
-    /* 🔥 Hide scrollbar (Firefox) */
-    scrollbar-width: none;
-
-    /* 🔥 Hide scrollbar (IE/old Edge) */
-    -ms-overflow-style: none;
-}
-
-/* 🔥 Hide scrollbar (Chrome, Edge, Opera) */
-.view-panel::-webkit-scrollbar {
-    display: none;
-}
-
-.back-btn {
-    transition: 0.3s, transform 0.3s, opacity 0.3s;
-}
+.featured:hover { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4) !important; }
+.featured .dl-link { background: #ffd700 !important; }
