@@ -100,29 +100,37 @@ h1 {
     text-transform: uppercase;
 }
 
-/* ✅ Updated Sticky Back Button: Pushed to the left edge */
+/* Updated Sticky Back Button with Auto-Hide support */
 .back-btn { 
     position: sticky;
-    top: 0;
-    left: 0;
+    top: 20px;
+    left: 20px; /* Kept to the far left */
     background: transparent !important;
     color: #555; 
     cursor: pointer; 
-    display: table; /* Shrink to text size */
+    display: table;
     margin-bottom: 30px; 
     letter-spacing: 5px; 
     font-size: 0.8rem; 
     font-family: 'Orbitron'; 
-    transition: 0.3s, transform 0.3s, opacity 0.3s;
-    z-index: 100;
+    transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smoother movement */
+    z-index: 2000;
     padding: 10px 0;
     text-align: left;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* This class is toggled by JavaScript when scrolling */
+.back-btn.hidden {
+    opacity: 0;
+    transform: translateX(-50px); /* Slides out to the left */
+    pointer-events: none;
 }
 
 .back-btn:hover { 
     color: var(--neon); 
     text-shadow: 0 0 10px var(--neon);
-    transform: translateX(10px);
 }
 
 /* --- NAVIGATION & TOOL CARDS --- */
