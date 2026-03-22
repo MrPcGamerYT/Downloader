@@ -267,3 +267,40 @@ h1 {
 .back-btn {
     transition: 0.3s, transform 0.3s, opacity 0.3s;
 }
+
+/* 🔥 CENTER EMULATOR VIEW PERFECTLY */
+.view-panel.active {
+    display: flex;                 /* override display:none when active */
+    flex-direction: column;
+    justify-content: center;       /* vertical center */
+    align-items: center;           /* horizontal center */
+}
+
+/* 🔥 FIX TOOL GRID CENTERING */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 260px));
+    justify-content: center;       /* center horizontally */
+    align-content: center;         /* center vertically */
+    gap: 25px;
+    width: 100%;
+    max-width: 950px;
+    margin: auto;
+}
+
+/* 🔥 CENTER CARDS CONTENT */
+.tool-card {
+    text-align: center;
+}
+
+/* 🔥 OPTIONAL: SMOOTH PANEL TRANSITION */
+.view-panel {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.4s ease;
+}
+
+.view-panel.active {
+    opacity: 1;
+    transform: scale(1);
+}
