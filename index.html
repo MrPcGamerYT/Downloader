@@ -4,62 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MR.PC GAMER | DOWNLOADER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <meta name="google-site-verification" content="Fh93dhqXolaFa8Z4eEYUJtHDk8EZ2SshxSN8uHBpMtw" />
+    <meta name="google-site-verification" content="Fh93dhqXolaFa8Z4eEYUJtHDk8EZ2SshxSN8uHBpMtw">
 </head>
 <body>
+    <audio id="bgMusic" src="bg.mp3" loop preload="auto" autoplay muted></audio>
 
+    <div class="startup-notice" id="startupNotice">
+        <div class="startup-card">
+            <p>DOWNLOADS ARE AD-SUPPORTED TO HELP COVER HOSTING, MAINTENANCE, AND REGULAR NEW RELEASES.</p>
+            <button id="startupOk" class="startup-ok" type="button">OK</button>
+        </div>
+    </div>
 
-    <!-- 🔥 TOP AD (HIGH EARNING) -->
+    <div class="preview-panel" id="previewPanel">
+        <button class="preview-close" id="previewClose" type="button">CLOSE</button>
+        <div class="preview-content">
+            <video id="previewVideo" class="preview-video" src="https://ik.imagekit.io/x2oo2ihwb/preview-PHANTOM-X.mp4" loop controls playsinline preload="auto"></video>
+            <div class="preview-text">
+                <span class="eyebrow">Premium Showcase</span>
+                <h2>PHANTOM X</h2>
+                <p>This flagship build is tuned for smoother sessions, lighter system load, stronger aim feel, and better performance on lower-end PCs.</p>
+                <ul class="preview-list">
+                    <li>High-performance optimization for stable gameplay</li>
+                    <li>Reduced unnecessary apps and a cleaner install</li>
+                    <li>Improved FPS, recoil control, and aiming response</li>
+                    <li>Discord-based purchase and support flow</li>
+                </ul>
+                <p class="preview-price">Price starts from <strong>$25</strong></p>
+                <p class="preview-note">Create a ticket or send a DM in Discord to buy.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="https://pl28954325.profitablecpmratenetwork.com/a6/99/01/a69901cf3e41f50169b0a32ad2771882.js"></script>
 
-    
     <canvas id="canvas"></canvas>
+    <div class="bg-orb orb-one"></div>
+    <div class="bg-orb orb-two"></div>
+    <div class="grid-glow"></div>
+
+    <div class="music-control" id="musicControl">
+        <button class="music-widget" id="musicToggle" type="button" aria-label="Toggle background music">
+            <span class="music-icon" aria-hidden="true">&#9835;</span>
+            <span class="music-slash" aria-hidden="true"></span>
+        </button>
+        <div class="volume-pop" id="volumePop">
+            <label class="volume-pop-label" for="volumeControl">Volume</label>
+            <input id="volumeControl" class="volume-slider" type="range" min="0" max="100" value="35">
+        </div>
+    </div>
 
     <div class="overlay">
         <div class="main-frame" id="home">
-            <div class="channel-name">MR.PC GAMER</div>
-            <h1>DOWNLOADER</h1>
-            <div class="tagline">The Ultimate Subscriber Resource Access</div>
-            
+            <section class="hero-shell">
+                <div class="hero-copy">
+                    <div class="status-pill">
+                        <span class="status-dot"></span>
+                        Resource hub live
+                    </div>
+                    <div class="channel-name">MR.PC GAMER</div>
+                    <h1>Downloader</h1>
+                    <p class="hero-lead">A sharper hub for emulator builds, APKs, and utility drops built for the community.</p>
+                    <div class="tagline">Fast access. Cleaner layout. Better release visibility.</div>
+                </div>
+
+                <div class="hero-sidekick">
+                    <div class="spotlight-card">
+                        <span class="spotlight-label">Featured Access</span>
+                        <strong>Prime, AIM-X, and the latest premium builds</strong>
+                        <p>Jump into curated categories below and grab the newest releases without digging through messages.</p>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stat-box">
+                            <strong>3</strong>
+                            <span>Categories</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>12+</strong>
+                            <span>Downloads</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>24/7</strong>
+                            <span>Community</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <div class="grid-nav">
                 <div class="nav-item" onclick="nav('emu-view')">
                     <div class="glitch-bg"></div>
-                    <h2>MODED EMULATOR'S</h2>
+                    <h2>Modded Emulators</h2>
+                    <p>Optimized builds for performance-focused play.</p>
                 </div>
                 <div class="nav-item" onclick="nav('opt-view')">
                     <div class="glitch-bg"></div>
-                    <h2>TOOL'S</h2>
+                    <h2>Tools</h2>
+                    <p>Utility apps and tuning kits for your setup.</p>
                 </div>
                 <div class="nav-item" onclick="nav('aim-view')">
                     <div class="glitch-bg"></div>
-                    <h2>APK'S</h2>
+                    <h2>APKs</h2>
+                    <p>Quick mobile downloads and extra add-ons.</p>
                 </div>
             </div>
 
-            <div class="social-hub">
-                <a href="http://www.youtube.com/@MR.PC_GAMER_YT" class="social-btn yt">
-                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    YouTube Channel
-                </a>
-                <a href="https://discord.gg/XbqcMzwfQQ" class="social-btn discord">
-                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.372.292a.077.077 0 0 1-.006.128a12.51 12.51 0 0 1-1.873.892a.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.956 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.946 2.419-2.157 2.419z"/></svg>
-                    Discord Server
-                </a>
-            </div>
         </div>
 
         <div class="main-frame view-panel" id="emu-view">
-            <div class="back-btn" onclick="nav('home')">/ BACK /</div>
+            <div class="back-btn" onclick="nav('home')">BACK TO HUB</div>
+            <div class="section-intro">
+                <span class="eyebrow">Modded Emulators</span>
+                <h2>Performance builds with standout presets</h2>
+                <p>Choose from premium and free emulator packages, each with version notes and direct access links.</p>
+            </div>
             <div class="tool-grid">
-                <div class="tool-card featured"> <span class="new-tag">NEW RELEASE</span> <div class="glitch-bg"></div>
+                <div class="tool-card premium">
+                    <button class="info-icon-PHANTOM-X" type="button" aria-label="Open PHANTOM X preview">i</button>
+                    <span class="premium-tag">Paid</span>
+                    <div class="glitch-bg"></div>
+                    <h3>PHANTOM X</h3>
+                    <span class="badge">Paid Emulator</span>
+                    <span class="pass-info">PURCHASE VIA DISCORD</span>
+                    <a href="https://discord.gg/XbqcMzwfQQ" target="_blank" class="dl-link locked">BUY NOW</a>
+                </div>
+                <div class="tool-card featured">
+                    <span class="new-tag">New Release</span>
+                    <div class="glitch-bg"></div>
                     <h3>Prime !!</h3>
                     <span class="badge">Bluestacks 5 Version</span>
                     <span class="pass-info">PASS: Prime !!</span>
                     <a href="https://shrinkme.click/f5hn5D" class="dl-link">DOWNLOAD</a>
                 </div>
-                <div class="tool-card featured"> <span class="new-tag">NEW RELEASE</span> <div class="glitch-bg"></div>
+                <div class="tool-card featured">
+                    <span class="new-tag">New Release</span>
+                    <div class="glitch-bg"></div>
                     <h3>Samir X Red Devil</h3>
                     <span class="badge">MSI 5 Version</span>
                     <span class="pass-info">PASS: Samir X Mr.Pc Gamer</span>
@@ -111,9 +193,16 @@
         </div>
 
         <div class="main-frame view-panel" id="opt-view">
-            <div class="back-btn" onclick="nav('home')">/ BACK /</div>
+            <div class="back-btn" onclick="nav('home')">BACK TO HUB</div>
+            <div class="section-intro">
+                <span class="eyebrow">Tools</span>
+                <h2>Utility apps for tuning and optimization</h2>
+                <p>Grab focused tools for aiming, cleanup, and system performance without extra clutter.</p>
+            </div>
             <div class="tool-grid">
-                <div class="tool-card featured"> <span class="new-tag">NEW RELEASE</span> <div class="glitch-bg"></div>
+                <div class="tool-card featured">
+                    <span class="new-tag">New Release</span>
+                    <div class="glitch-bg"></div>
                     <h3>AIM-X</h3>
                     <span class="badge">Aim Optimizer Tool</span>
                     <span class="pass-info">PASS: Not Required</span>
@@ -130,7 +219,12 @@
         </div>
 
         <div class="main-frame view-panel" id="aim-view">
-            <div class="back-btn" onclick="nav('home')">/ BACK /</div>
+            <div class="back-btn" onclick="nav('home')">BACK TO HUB</div>
+            <div class="section-intro">
+                <span class="eyebrow">APKs</span>
+                <h2>Quick mobile packages and extras</h2>
+                <p>Direct APK picks with clean cards and visible password information where needed.</p>
+            </div>
             <div class="tool-grid">
                 <div class="tool-card">
                     <div class="glitch-bg"></div>
@@ -156,28 +250,18 @@
             </div>
         </div>
     </div>
+
+    <div class="social-hub bottom-dock">
+        <a href="http://www.youtube.com/@MR.PC_GAMER_YT" class="social-btn yt">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            YouTube Channel
+        </a>
+        <a href="https://discord.gg/XbqcMzwfQQ" class="social-btn discord">
+            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.372.292a.077.077 0 0 1-.006.128a12.51 12.51 0 0 1-1.873.892a.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.956 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.419c0 1.334-.946 2.419-2.157 2.419z"/></svg>
+            Discord Server
+        </a>
+    </div>
+
     <script src="script.js"></script>
-    <div class="system-footer-pro">
-    <div class="footer-left">
-        <span class="pulse-dot"></span>
-        <span class="status-label">Dev Maintenance <span class="online-text">LIVE</span></span>
-    </div>
-    <div class="footer-right">
-        <div class="marquee-container">
-            <div class="scrolling-notice">
-                <div class="notice-content">
-                    <span class="alert-tag">[ COMMUNITY_SUPPORT ]</span> 
-                    TO KEEP THESE MODS FREE, DOWNLOADS ARE PROTECTED BY ADS. YOUR HELP COVERS MAINTENANCE & UPDATES.
-                    <span class="alert-tag">[ MISSION: NO_PAID_TOOLS ]</span>
-                </div>
-                <div class="notice-content">
-                    <span class="alert-tag">[ COMMUNITY_SUPPORT ]</span> 
-                    TO KEEP THESE MODS FREE, DOWNLOADS ARE PROTECTED BY ADS. YOUR HELP COVERS MAINTENANCE & UPDATES.
-                    <span class="alert-tag">[ MISSION: NO_PAID_TOOLS ]</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>
