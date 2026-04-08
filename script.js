@@ -176,6 +176,62 @@ function setupDownloadClickCount() {
     });
 }
 
+function attachTiltEffect(selector, perspective = 1000, divider = 35) {
+    const element = document.querySelector(selector);
+    if (!element) {
+        return;
+    }
+
+    element.addEventListener("mousemove", (event) => {
+        const rect = element.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / divider;
+        const rotateY = (centerX - x) / divider;
+
+        element.style.transform = `perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    element.addEventListener("mouseleave", () => {
+        element.style.transform = "";
+    });
+}
+
+function attachDashboardFloat(selector, perspective = 900, divider = 26) {
+    document.querySelectorAll(selector).forEach((element) => {
+        element.addEventListener("mousemove", (event) => {
+            const rect = element.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / divider;
+            const rotateY = (centerX - x) / divider;
+
+            element.style.transform = `perspective(${perspective}px) translateY(-10px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        element.addEventListener("mouseleave", () => {
+            element.style.transform = "";
+        });
+    });
+}
+
+function setupDashboardCards() {
+    document.querySelectorAll(".nav-card").forEach((card) => {
+        card.addEventListener("click", () => {
+            card.style.transform = "scale(0.99)";
+            setTimeout(() => {
+                if (card.style.transform === "scale(0.99)") {
+                    card.style.transform = "";
+                }
+            }, 120);
+        });
+    });
+}
+
 function syncMusicButton() {
     if (!musicToggle || !bgMusic) {
         return;
@@ -559,5 +615,10 @@ window.addEventListener("resize", initParticles);
 
 setupDownloadClickCount();
 syncDownloadCount();
+setupDashboardCards();
+attachTiltEffect("#heroTilt", 1000, 35);
+attachTiltEffect("#rightPanelTilt", 800, 40);
+attachDashboardFloat(".game-card, .nav-item, .tool-card, .preview-content", 920, 28);
+attachDashboardFloat(".music-control", 820, 34);
 initParticles();
 animateParticles();
