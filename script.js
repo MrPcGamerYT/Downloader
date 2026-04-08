@@ -136,90 +136,133 @@ function nav(id) {
     closePreview();
 }
 
-const DOWNLOAD_COUNTER_NAMESPACE = "mrpcgamer_downloader";
-const DOWNLOAD_COUNTER_KEY = "total_download_clicks";
+const SUPABASE_URL = "https://dcifrfscgzxopfilccqj.supabase.co";
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjaWZyZnNjZ3p4b3BmaWxjY3FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDQyNzcsImV4cCI6MjA5MTIyMDI3N30.pRKR8FUSUqEjMGBlyyNWn8zxm72qGn203RqhqptgkcU";
+const DOWNLOAD_COUNTER_ROW_KEY = "download_count";
 
-async function fetchGlobalDownloadCount() {
-    try {
-        const response = await fetch(
-            `https://api.countapi.xyz/get/${DOWNLOAD_COUNTER_NAMESPACE}/${DOWNLOAD_COUNTER_KEY}`,
-            { cache: "no-store" }
-        );
-
-        if (!response.ok) {
-            return null;
-        }
-
-        const data = await response.json();
-        return Number(data?.value || 0);
-    } catch {
-        return null;
-    }
-}
-
-async function incrementGlobalDownloadCount() {
-    try {
-        const response = await fetch(
-            `https://api.countapi.xyz/hit/${DOWNLOAD_COUNTER_NAMESPACE}/${DOWNLOAD_COUNTER_KEY}`,
-            { cache: "no-store", keepalive: true }
-        );
-
-        if (!response.ok) {
-            return null;
-        }
-
-        const data = await response.json();
-        return Number(data?.value || 0);
-    } catch {
-        return null;
-    }
-}
-
-async function syncDownloadCount() {
+function updateDownloadCountDisplay(nextCount) {
     const downloadCount = document.getElementById("downloadCount");
     if (!downloadCount) {
         return;
     }
 
-    downloadCount.textContent = "...";
+    downloadCount.textContent = Number.isFinite(nextCount) ? `${nextCount}+` : "--";
+}
+
+function getDisplayedDownloadCount() {
+    const downloadCount = document.getElementById("downloadCount");
+    if (!downloadCount) {
+        return null;
+    }
+
+    const numericValue = Number.parseInt(downloadCount.textContent, 10);
+    return Number.isFinite(numericValue) ? numericValue : null;
+}
+
+async function requestSupabase(path, options = {}) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+    }, 4000);
+
+    try {
+        const response = await fetch(`${SUPABASE_URL}${path}`, {
+            cache: "no-store",
+            signal: controller.signal,
+            headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json",
+                ...options.headers
+            },
+            ...options
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+
+        return await response.json();
+    } catch {
+        return null;
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+async function fetchGlobalDownloadCount() {
+    const data = await requestSupabase(
+        `/rest/v1/site_stats?select=value&key=eq.${encodeURIComponent(DOWNLOAD_COUNTER_ROW_KEY)}`
+    );
+
+    if (!Array.isArray(data) || !data.length) {
+        return null;
+    }
+
+    const count = Number(data[0]?.value);
+    return Number.isFinite(count) ? count : null;
+}
+
+async function incrementGlobalDownloadCount() {
+    const data = await requestSupabase("/rest/v1/rpc/increment_download_count", {
+        method: "POST",
+        body: "{}"
+    });
+
+    const count = Number(
+        typeof data === "object" && data !== null && "value" in data ? data.value : data
+    );
+    return Number.isFinite(count) ? count : null;
+}
+
+async function syncDownloadCount() {
+    if (!document.getElementById("downloadCount")) {
+        return;
+    }
+
+    updateDownloadCountDisplay(getDisplayedDownloadCount() ?? 0);
     const totalCount = await fetchGlobalDownloadCount();
-    downloadCount.textContent = totalCount === null ? "--" : `${totalCount}+`;
+    if (totalCount !== null) {
+        updateDownloadCountDisplay(totalCount);
+    }
 }
 
 function setupDownloadClickCount() {
     document.querySelectorAll(".dl-link").forEach((link) => {
-        const href = (link.getAttribute("href") || "").trim();
-        const label = (link.textContent || "").trim().toUpperCase();
+        link.addEventListener("click", async (event) => {
+            const label = (link.textContent || "").trim().toUpperCase();
+            if (label !== "DOWNLOAD") {
+                return;
+            }
 
-        if (label !== "DOWNLOAD") {
-            return;
-        }
-
-        link.addEventListener("click", (event) => {
-            const destination = href;
+            const destination = (link.getAttribute("href") || "").trim();
             const target = (link.getAttribute("target") || "").toLowerCase();
 
             if (destination && destination !== "#") {
                 event.preventDefault();
             }
 
-            incrementGlobalDownloadCount().then((nextCount) => {
-                const downloadCount = document.getElementById("downloadCount");
-                if (downloadCount) {
-                    downloadCount.textContent = nextCount === null ? "--" : `${nextCount}+`;
-                }
+            const optimisticCount = getDisplayedDownloadCount();
+            if (optimisticCount !== null) {
+                updateDownloadCountDisplay(optimisticCount + 1);
+            }
 
-                if (!destination || destination === "#") {
-                    return;
-                }
+            const nextCount = await incrementGlobalDownloadCount();
+            if (nextCount !== null) {
+                updateDownloadCountDisplay(nextCount);
+            }
 
-                if (target === "_blank") {
-                    window.open(destination, "_blank", "noopener");
-                    return;
-                }
+            if (!destination || destination === "#") {
+                return;
+            }
 
-                window.location.assign(destination);
-            });
+            if (target === "_blank") {
+                window.open(destination, "_blank", "noopener");
+                return;
+            }
+
+            window.location.assign(destination);
         });
     });
 }
