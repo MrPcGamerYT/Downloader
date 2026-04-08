@@ -136,27 +136,54 @@ function nav(id) {
     closePreview();
 }
 
-function getStoredDownloadCount() {
+const DOWNLOAD_COUNTER_NAMESPACE = "mrpcgamer_downloader";
+const DOWNLOAD_COUNTER_KEY = "total_download_clicks";
+
+async function fetchGlobalDownloadCount() {
     try {
-        return Number(localStorage.getItem("downloadClickCount") || "0");
+        const response = await fetch(
+            `https://api.countapi.xyz/get/${DOWNLOAD_COUNTER_NAMESPACE}/${DOWNLOAD_COUNTER_KEY}`,
+            { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const data = await response.json();
+        return Number(data?.value || 0);
     } catch {
-        return 0;
+        return null;
     }
 }
 
-function setStoredDownloadCount(nextCount) {
+async function incrementGlobalDownloadCount() {
     try {
-        localStorage.setItem("downloadClickCount", String(nextCount));
-    } catch {}
+        const response = await fetch(
+            `https://api.countapi.xyz/hit/${DOWNLOAD_COUNTER_NAMESPACE}/${DOWNLOAD_COUNTER_KEY}`,
+            { cache: "no-store", keepalive: true }
+        );
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const data = await response.json();
+        return Number(data?.value || 0);
+    } catch {
+        return null;
+    }
 }
 
-function syncDownloadCount() {
+async function syncDownloadCount() {
     const downloadCount = document.getElementById("downloadCount");
     if (!downloadCount) {
         return;
     }
 
-    downloadCount.textContent = `${getStoredDownloadCount()} +`;
+    downloadCount.textContent = "...";
+    const totalCount = await fetchGlobalDownloadCount();
+    downloadCount.textContent = totalCount === null ? "--" : `${totalCount}+`;
 }
 
 function setupDownloadClickCount() {
@@ -164,14 +191,35 @@ function setupDownloadClickCount() {
         const href = (link.getAttribute("href") || "").trim();
         const label = (link.textContent || "").trim().toUpperCase();
 
-        if (href === "" || href === "#" || label !== "DOWNLOAD") {
+        if (label !== "DOWNLOAD") {
             return;
         }
 
-        link.addEventListener("click", () => {
-            const nextCount = getStoredDownloadCount() + 1;
-            setStoredDownloadCount(nextCount);
-            syncDownloadCount();
+        link.addEventListener("click", (event) => {
+            const destination = href;
+            const target = (link.getAttribute("target") || "").toLowerCase();
+
+            if (destination && destination !== "#") {
+                event.preventDefault();
+            }
+
+            incrementGlobalDownloadCount().then((nextCount) => {
+                const downloadCount = document.getElementById("downloadCount");
+                if (downloadCount) {
+                    downloadCount.textContent = nextCount === null ? "--" : `${nextCount}+`;
+                }
+
+                if (!destination || destination === "#") {
+                    return;
+                }
+
+                if (target === "_blank") {
+                    window.open(destination, "_blank", "noopener");
+                    return;
+                }
+
+                window.location.assign(destination);
+            });
         });
     });
 }
@@ -196,6 +244,27 @@ function attachTiltEffect(selector, perspective = 1000, divider = 35) {
 
     element.addEventListener("mouseleave", () => {
         element.style.transform = "";
+    });
+}
+
+function attachTiltEffects(selector, perspective = 900, divider = 38, lift = 0, scale = 1) {
+    document.querySelectorAll(selector).forEach((element) => {
+        element.addEventListener("mousemove", (event) => {
+            const rect = element.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / divider;
+            const rotateY = (centerX - x) / divider;
+
+            element.style.transform =
+                `perspective(${perspective}px) translateY(${lift}px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        element.addEventListener("mouseleave", () => {
+            element.style.transform = "";
+        });
     });
 }
 
@@ -335,18 +404,6 @@ function playBackgroundMusic() {
     if (playPromise && typeof playPromise.catch === "function") {
         playPromise.catch(() => {});
     }
-}
-
-function tryStartBackgroundMusic() {
-    if (!bgMusic) {
-        return;
-    }
-
-    if (!hasUserInteracted) {
-        return;
-    }
-
-    playBackgroundMusic();
 }
 
 function pauseBackgroundMusicForPreview() {
@@ -505,24 +562,13 @@ if (bgMusic) {
         attemptImmediateMusicStart();
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-        attemptImmediateMusicStart();
+    ["DOMContentLoaded", "load"].forEach((eventName) => {
+        window.addEventListener(eventName, attemptImmediateMusicStart);
     });
-    window.addEventListener("load", () => {
-        attemptImmediateMusicStart();
-    });
-    window.addEventListener(
-        "pageshow",
-        () => {
-            attemptImmediateMusicStart();
-        },
-        { once: true }
-    );
+    window.addEventListener("pageshow", attemptImmediateMusicStart, { once: true });
     bgMusic.addEventListener(
         "canplaythrough",
-        () => {
-            attemptImmediateMusicStart();
-        },
+        attemptImmediateMusicStart,
         { once: true }
     );
 
@@ -618,6 +664,7 @@ syncDownloadCount();
 setupDashboardCards();
 attachTiltEffect("#heroTilt", 1000, 35);
 attachTiltEffect("#rightPanelTilt", 800, 40);
+attachTiltEffects(".social-btn", 900, 42, 0, 1);
 attachDashboardFloat(".game-card, .nav-item, .tool-card, .preview-content", 920, 28);
 attachDashboardFloat(".music-control", 820, 34);
 initParticles();
