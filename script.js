@@ -136,6 +136,46 @@ function nav(id) {
     closePreview();
 }
 
+function getStoredDownloadCount() {
+    try {
+        return Number(localStorage.getItem("downloadClickCount") || "0");
+    } catch {
+        return 0;
+    }
+}
+
+function setStoredDownloadCount(nextCount) {
+    try {
+        localStorage.setItem("downloadClickCount", String(nextCount));
+    } catch {}
+}
+
+function syncDownloadCount() {
+    const downloadCount = document.getElementById("downloadCount");
+    if (!downloadCount) {
+        return;
+    }
+
+    downloadCount.textContent = `${getStoredDownloadCount()} +`;
+}
+
+function setupDownloadClickCount() {
+    document.querySelectorAll(".dl-link").forEach((link) => {
+        const href = (link.getAttribute("href") || "").trim();
+        const label = (link.textContent || "").trim().toUpperCase();
+
+        if (href === "" || href === "#" || label !== "DOWNLOAD") {
+            return;
+        }
+
+        link.addEventListener("click", () => {
+            const nextCount = getStoredDownloadCount() + 1;
+            setStoredDownloadCount(nextCount);
+            syncDownloadCount();
+        });
+    });
+}
+
 function syncMusicButton() {
     if (!musicToggle || !bgMusic) {
         return;
@@ -517,5 +557,7 @@ if (bgMusic) {
 
 window.addEventListener("resize", initParticles);
 
+setupDownloadClickCount();
+syncDownloadCount();
 initParticles();
 animateParticles();
